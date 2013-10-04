@@ -31,6 +31,15 @@
     return self;
 }
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        feeds = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,16 +49,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [self.stopButton.titleLabel setNeedsDisplay];
-//    [self.loadingIndicator startAnimating];
-//    NSInvocationOperation* theOp = [[NSInvocationOperation alloc] initWithTarget:self
-//                                                                        selector:@selector(startDownload) object:nil];
-//    theOp.completionBlock = ^(void){
-//        [self performSelectorOnMainThread:@selector(finishedDownload) withObject:nil waitUntilDone:NO];
-//    };
-////    [theOp start];
-//    [self.opQueue addOperation:theOp];
-//    [theOp start];
     [self startDownload];
 }
 
@@ -62,22 +61,12 @@
 #pragma mark Download
 - (IBAction)stopButtonTapped:(UIButton*)button {
     if ([button.titleLabel.text isEqualToString:@"Stop"]) {
-//        @synchronized(parser){
-//            [parser abortParsing];
-//        }
-//        @synchronized(feeds){
-//            [feeds removeAllObjects];
-//        }
-//        [self.opQueue cancelAllOperations];
-//        button.titleLabel.text = @"Reload";
-        [self.stopButton setTitle:@"Reload" forState:UIControlStateNormal];        
+        [self.stopButton setTitle:@"Reload" forState:UIControlStateNormal];
         if ([theOp isExecuting]) {
             [theOp cancel];
         }
-//        [self.loadingIndicator stopAnimating];
     }else if([button.titleLabel.text isEqualToString:@"Reload"]){
         [self startDownload];
-//        [button layoutIfNeeded];
     }
 }
 
@@ -86,15 +75,6 @@
     [self.loadingIndicator startAnimating];
     [self.stopButton setTitle:@"Stop" forState:UIControlStateNormal];
     self.statusLabel.text = @"Downloading...";
-//    theOp = [[DownloadOperation alloc] init];
-//    __weak ViewController* weakSelf = self;
-//    theOp.completionBlock = ^(void){
-//        ViewController* strongSelf = weakSelf;
-//        if (strongSelf) {
-//            [strongSelf performSelectorOnMainThread:@selector(finishedDownload) withObject:nil waitUntilDone:NO];
-//        }
-//    };
-//    [theOp start];
     NSURL* rssURL = [NSURL URLWithString:@"http://in.sports.yahoo.com/top/rss.xml"];
     NSURLRequest* request = [[NSURLRequest alloc] initWithURL:rssURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.0f];
     afOp = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -215,23 +195,14 @@
         }
         [currentString appendString:string];
     }
-//    @autoreleasepool {
-//        if (currentFeed && [currentMetadata isEqualToString:@"title"]) {
-//            currentFeed.title = [currentFeed.title stringByAppendingString:string];
-//        }else if(currentFeed && [currentMetadata isEqualToString:@"description"]) {
-//            currentFeed.body = [currentFeed.body stringByAppendingString:string];
-//        }
-//    }
 }
 
 -(void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
     if (currentFeed && [elementName isEqualToString:@"item"]) {
-//        NSLog(@"Title: %@\nImage URL: %@\n Body: %@\n\n",currentFeed.title,currentFeed.imgURL,currentFeed.body);
         [feeds addObject:currentFeed];
         currentString = nil;
         currentMetadata = nil;
-        //NSLog(@"Downloaded feed %d",feeds.count);
         return;
     }
     
@@ -243,18 +214,11 @@
     }
     
     if (currentFeed && [currentMetadata isEqualToString:@"description"]) {
-        //NSString* htmlString = [[NSString alloc] initWithFormat:@"<html>%@</html>",currentString];
         TFHpple* htmlParser = [[TFHpple alloc] initWithHTMLData:[currentString dataUsingEncoding:NSUTF8StringEncoding]];
         NSArray* elems = [htmlParser searchWithXPathQuery:@"//p"];
         TFHppleElement* elem = [elems lastObject];
         currentFeed.body = elem.text;
         htmlParser = nil;
-//        NSError* error = nil;
-//        HTMLParser* htmlParser = [[HTMLParser alloc] initWithString:currentString error:&error];
-//        if (error)
-//            NSLog(@"HTML Parser error: %@",error.description);
-//        else
-//            currentFeed.body = [[htmlParser para] contents];
         currentString = nil;
         currentMetadata = nil;        
         return;
@@ -280,7 +244,6 @@
     FeedsTableViewCell* cell = nil;
     cell = (FeedsTableViewCell*)[self.tblView dequeueReusableCellWithIdentifier:@"feedCell"];
     if (!cell) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"feedCell"];
         NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"FeedsTableViewCell" owner:self options:nil];
         for (id currentObject in topLevelObjects) {
             if ([currentObject isKindOfClass:[UITableViewCell class]]) {
@@ -292,8 +255,6 @@
     RSSFeed* feed = [feeds objectAtIndex:indexPath.row];
     cell.textLabel.text = feed.title;
     cell.detailTextLabel.text = feed.body;
-//    cell.title.text = feed.title;
-//    cell.subTitle.text = feed.body;
     return cell;
 }
 @end

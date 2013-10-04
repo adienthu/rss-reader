@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FA2699F17FED3310002A12B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA2699E17FED3310002A12B /* Main_iPhone.storyboard */; };
 		88A9EF5117967BBC00557B18 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF5017967BBC00557B18 /* UIKit.framework */; };
 		88A9EF5317967BBC00557B18 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF5217967BBC00557B18 /* Foundation.framework */; };
 		88A9EF5517967BBC00557B18 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF5417967BBC00557B18 /* CoreGraphics.framework */; };
@@ -17,7 +18,6 @@
 		88A9EF6517967BBD00557B18 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A9EF6417967BBD00557B18 /* Default@2x.png */; };
 		88A9EF6717967BBD00557B18 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88A9EF6617967BBD00557B18 /* Default-568h@2x.png */; };
 		88A9EF6A17967BBD00557B18 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A9EF6917967BBD00557B18 /* ViewController.m */; settings = {COMPILER_FLAGS = ""; }; };
-		88A9EF6D17967BBD00557B18 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A9EF6B17967BBD00557B18 /* ViewController.xib */; };
 		88A9EF751796932D00557B18 /* RSSFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A9EF741796932D00557B18 /* RSSFeed.m */; settings = {COMPILER_FLAGS = ""; }; };
 		88A9EF771796C23C00557B18 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF761796C23C00557B18 /* libxml2.dylib */; };
 		88A9EF891796D67F00557B18 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A9EF861796D67F00557B18 /* TFHpple.m */; };
@@ -39,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FA2699E17FED3310002A12B /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
 		88A9EF4C17967BBC00557B18 /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A9EF5017967BBC00557B18 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88A9EF5217967BBC00557B18 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -54,7 +55,6 @@
 		88A9EF6617967BBD00557B18 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		88A9EF6817967BBD00557B18 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		88A9EF6917967BBD00557B18 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		88A9EF6C17967BBD00557B18 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		88A9EF731796932D00557B18 /* RSSFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSFeed.h; sourceTree = "<group>"; };
 		88A9EF741796932D00557B18 /* RSSFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSFeed.m; sourceTree = "<group>"; };
 		88A9EF761796C23C00557B18 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -152,7 +152,7 @@
 				88A9EF6017967BBD00557B18 /* AppDelegate.m */,
 				88A9EF6817967BBD00557B18 /* ViewController.h */,
 				88A9EF6917967BBD00557B18 /* ViewController.m */,
-				88A9EF6B17967BBD00557B18 /* ViewController.xib */,
+				0FA2699E17FED3310002A12B /* Main_iPhone.storyboard */,
 				88A9EF5717967BBC00557B18 /* Supporting Files */,
 				88A9EF731796932D00557B18 /* RSSFeed.h */,
 				88A9EF741796932D00557B18 /* RSSFeed.m */,
@@ -259,7 +259,7 @@
 				88A9EF6317967BBD00557B18 /* Default.png in Resources */,
 				88A9EF6517967BBD00557B18 /* Default@2x.png in Resources */,
 				88A9EF6717967BBD00557B18 /* Default-568h@2x.png in Resources */,
-				88A9EF6D17967BBD00557B18 /* ViewController.xib in Resources */,
+				0FA2699F17FED3310002A12B /* Main_iPhone.storyboard in Resources */,
 				BCA8C18717B7503D006ACF33 /* FeedsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,14 +301,6 @@
 				88A9EF5A17967BBD00557B18 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		88A9EF6B17967BBD00557B18 /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				88A9EF6C17967BBD00557B18 /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
