@@ -11,10 +11,11 @@
 #import "DownloadOperation.h"
 #import "FeedsTableViewCell.h"
 #import "AFHTTPRequestOperation.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ViewController ()<NSXMLParserDelegate, UITableViewDataSource, UITableViewDelegate, NSStreamDelegate>
 
-@property (nonatomic, weak) IBOutlet UITableView* tblView;
+@property (nonatomic, strong) UITableView* tblView;
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView* loadingIndicator;
 @property (nonatomic, weak) IBOutlet UIButton* stopButton;
 @property (nonatomic, weak) IBOutlet UILabel* statusLabel;
@@ -49,6 +50,54 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    UINavigationBar* navBar = [[self navigationController] navigationBar];
+    UIView* contentView = [self view];
+    UITableView* feedListTable = [[UITableView alloc] init];
+    self.tblView = feedListTable;
+    [contentView addSubview:self.tblView];
+    [feedListTable setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:feedListTable
+                                                              attribute:NSLayoutAttributeTop
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:contentView
+                                                              attribute:NSLayoutAttributeTop
+                                                             multiplier:1.0f
+                                                               constant:navBar.frame.origin.y+navBar.frame.size.height]];
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:feedListTable
+                                                            attribute:NSLayoutAttributeLeft
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:contentView
+                                                            attribute:NSLayoutAttributeLeft
+                                                           multiplier:1.0f
+                                                             constant:0]];
+//    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:feedListTable
+//                                                              attribute:NSLayoutAttributeWidth
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:contentView
+//                                                              attribute:NSLayoutAttributeWidth
+//                                                             multiplier:1.0f
+//                                                               constant:0]];
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:feedListTable
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:contentView
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1.0f
+                                                               constant:0]];
+    [contentView addConstraint:[NSLayoutConstraint constraintWithItem:feedListTable
+                                                            attribute:NSLayoutAttributeRight
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:contentView
+                                                            attribute:NSLayoutAttributeRight
+                                                           multiplier:1.0f
+                                                             constant:0]];
+    feedListTable.hidden = YES;
+    feedListTable.delegate = self;
+    feedListTable.dataSource = self;
+    [feedListTable registerNib:[UINib nibWithNibName:@"FeedsTableViewCell" bundle:nil] forCellReuseIdentifier:@"feedCell"];
+    feedListTable.separatorStyle = UITableViewCellSelectionStyleNone;
+//    FeedsTableViewCell* cell = (FeedsTableViewCell*)[feedListTable dequeueReusableCellWithIdentifier:@"feedCell"];
+    feedListTable.rowHeight = 120;//cell.frame.size.height;
     [self startDownload];
 }
 
@@ -97,6 +146,7 @@
 -(void)finishedDownload
 {
     [self.loadingIndicator stopAnimating];
+    self.loadingIndicator.hidden = YES;
     if (theOp.isCancelled == NO) {
         self.stopButton.hidden = YES;
     }
@@ -208,6 +258,7 @@
     
     if (currentFeed && [currentMetadata isEqualToString:@"title"]) {
         currentFeed.title = currentString;
+//        NSLog(@"'%@'---->'%@'",currentFeed.title,currentFeed.imgURL);
         currentString = nil;
         currentMetadata = nil;
         return;
@@ -241,20 +292,60 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FeedsTableViewCell* cell = nil;
-    cell = (FeedsTableViewCell*)[self.tblView dequeueReusableCellWithIdentifier:@"feedCell"];
-    if (!cell) {
-        NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"FeedsTableViewCell" owner:self options:nil];
-        for (id currentObject in topLevelObjects) {
-            if ([currentObject isKindOfClass:[UITableViewCell class]]) {
-                cell = (FeedsTableViewCell *)currentObject;
-                break;
-            }
-        }
+    if (feeds.count == 0) {
+        return nil;
     }
+    UITableViewCell* cachedCell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cachedCell) {
+        NSLog(@"USING CACHED CELL");
+        return cachedCell;
+    }
+    static NSString* resuseIdentifier = @"feedCell";
+    FeedsTableViewCell* cell = (FeedsTableViewCell*)[tableView dequeueReusableCellWithIdentifier:resuseIdentifier];
     RSSFeed* feed = [feeds objectAtIndex:indexPath.row];
-    cell.textLabel.text = feed.title;
-    cell.detailTextLabel.text = feed.body;
+    cell.title.text = feed.title;
+    if (feed.imgURL) {
+        NSLog(@"'%@'---->'%@'",cell.title.text,feed.imgURL);
+        // load image lazily
+        NSURLRequest* request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:feed.imgURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0f];
+        __weak FeedsTableViewCell* weakCell = cell;
+        AFImageRequestOperation* op = [AFImageRequestOperation imageRequestOperationWithRequest:request
+                                                                                        success:^(UIImage *image) {
+                                                                                            FeedsTableViewCell* strongCell = weakCell;
+                                                                                            if (strongCell && [[tableView indexPathForCell:strongCell] isEqual:indexPath]) {
+                                                                                                [[strongCell feedImgView] setImage:image];
+                                                                                                [[strongCell contentView] setNeedsLayout];
+//                                                                                                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                                                                                            }
+                                                                                        }];
+        [op start];
+    }
+    
+    /*
+    __weak UIImageView* weakImgView = cell.imageView;
+    [cell.imageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        UIImageView* strongImgView = weakImgView;
+        NSLog(@"Downloaded image for feed with title '%@'",feed.title);
+        if (strongImgView) {
+            [strongImgView setImage:image];
+//            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [strongImgView layoutIfNeeded];
+        }
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//        NSLog(@"Failed to download image for feed with title '%@'",feed.title);
+    }];
+     */
+//    [cell.imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    cell.imageView.contentMode = UIViewContentModeScaleToFill;
+//    [cell.imageView setImageWithURL:[NSURL URLWithString:feed.imgURL]];
+//    cell.detailTextLabel.text = feed.body;
     return cell;
 }
+
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString* resuseIdentifier = @"feedCell";
+//    FeedsTableViewCell* cell = (FeedsTableViewCell*)[self.tblView dequeueReusableCellWithIdentifier:resuseIdentifier];
+//    return cell.frame.size.height;
+//}
 @end

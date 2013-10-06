@@ -10,7 +10,7 @@
 
 @interface FeedsTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UITextView* title;
-@property (nonatomic, strong) IBOutlet UITextView* subTitle;
+@property (nonatomic, strong) IBOutlet UILabel* title;
+@property (nonatomic, strong) IBOutlet UIImageView* feedImgView;
 
 @end
