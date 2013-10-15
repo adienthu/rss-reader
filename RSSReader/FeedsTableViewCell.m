@@ -7,8 +7,18 @@
 //
 
 #import "FeedsTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation FeedsTableViewCell
+
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+    }
+    return self;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

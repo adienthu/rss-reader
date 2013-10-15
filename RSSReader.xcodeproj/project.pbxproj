@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0FA2699F17FED3310002A12B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0FA2699E17FED3310002A12B /* Main_iPhone.storyboard */; };
+		0FCC37D61802D6E90081D5DC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FCC37D51802D6E90081D5DC /* QuartzCore.framework */; };
 		88A9EF5117967BBC00557B18 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF5017967BBC00557B18 /* UIKit.framework */; };
 		88A9EF5317967BBC00557B18 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF5217967BBC00557B18 /* Foundation.framework */; };
 		88A9EF5517967BBC00557B18 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88A9EF5417967BBC00557B18 /* CoreGraphics.framework */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		0FA2699E17FED3310002A12B /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
+		0FCC37D51802D6E90081D5DC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		88A9EF4C17967BBC00557B18 /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88A9EF5017967BBC00557B18 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88A9EF5217967BBC00557B18 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FCC37D61802D6E90081D5DC /* QuartzCore.framework in Frameworks */,
 				88CD588017BB5081006A37EF /* Security.framework in Frameworks */,
 				88A9EF771796C23C00557B18 /* libxml2.dylib in Frameworks */,
 				88A9EF5117967BBC00557B18 /* UIKit.framework in Frameworks */,
@@ -128,6 +131,7 @@
 		88A9EF4F17967BBC00557B18 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0FCC37D51802D6E90081D5DC /* QuartzCore.framework */,
 				88A9EF761796C23C00557B18 /* libxml2.dylib */,
 				88CD587F17BB5081006A37EF /* Security.framework */,
 				88A9EF5017967BBC00557B18 /* UIKit.framework */,
@@ -232,6 +236,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "aditya-d";
+				TargetAttributes = {
+					88A9EF4B17967BBC00557B18 = {
+						DevelopmentTeam = GY84S9P9XS;
+					};
+				};
 			};
 			buildConfigurationList = 88A9EF4617967BBC00557B18 /* Build configuration list for PBXProject "RSSReader" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -361,12 +370,15 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSSReader/RSSReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SDKROOT)/usr/include/libxml2\"";
 				INFOPLIST_FILE = "RSSReader/RSSReader-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -376,12 +388,15 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSSReader/RSSReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SDKROOT)/usr/include/libxml2\"";
 				INFOPLIST_FILE = "RSSReader/RSSReader-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
